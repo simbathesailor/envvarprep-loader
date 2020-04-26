@@ -61,5 +61,11 @@
   },
   "jest": {
     "testEnvironment": "node"
-  }
+  },
+  "keywords": [
+    "webpack",
+    "babel",
+    "env",
+    "loader"
+  ]
 }
