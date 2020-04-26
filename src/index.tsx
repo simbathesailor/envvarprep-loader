@@ -1,7 +1,7 @@
 import { getOptions } from 'loader-utils';
 import { loader } from 'webpack';
 import { parse, ParserPlugin } from '@babel/parser';
-import BabelTypeModule from '@babel/types';
+import * as BabelTypeModule from '@babel/types';
 import generator from '@babel/generator';
 import traverse from '@babel/traverse';
 import toPath from 'lodash/topath';

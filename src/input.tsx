@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { SOMEPARAM } from './consts';
+
+export const SOMEPARAM = process.env.REACT_APP_PARAM_TWO;
 
 console.log('SOMEPARAM outside', SOMEPARAM);
 

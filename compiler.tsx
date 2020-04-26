@@ -1,6 +1,8 @@
 import path from 'path';
 import webpack from 'webpack';
-import { createFsFromVolume, Volume } from 'memfs';
+// @ts-ignore
+import joinPath from 'memory-fs/lib/join';
+import { fs } from 'memfs';
 
 export default (fixture: string) => {
   console.log('fixture', fixture);
@@ -11,92 +13,60 @@ export default (fixture: string) => {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
+    resolve: {
+      // Add `.ts` and `.tsx` as a resolvable extension.
+      extensions: ['.ts', '.tsx', '.js'],
+    },
+    stats: {
+      source: true,
+    },
     module: {
       rules: [
         {
           test: /\.(js|mjs|jsx|ts|tsx)$/,
           enforce: 'pre',
-          include: path.join(__dirname, './'),
+          include: path.join(__dirname, './src'),
           use: [
             {
-              // options: {
-              //   cache: true,
-              //   formatter: require.resolve("react-dev-utils/eslintFormatter"),
-              //   eslintPath: require.resolve("eslint"),
-              //   resolvePluginsRelativeTo: __dirname
-              // },
-              // loader: require.resolve("eslint-loader")
               options: {
                 exclude: ['NODE_ENV', 'REACT_APP_APPNAME', 'PUBLIC_URL'],
                 plugins: ['jsx'],
                 enable: true,
               },
-              loader: path.join(__dirname, './'),
+              loader: path.join(__dirname, './src/index.tsx'),
+            },
+            {
+              loader: require.resolve('ts-loader'),
             },
           ],
           exclude: /(node_modules|dist)/,
         },
-        {
-          test: /\.tsx?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/,
-        },
-        // {
-        //   test: /\.(js|mjs|jsx|ts|tsx)$/,
-        //   include: path.join(__dirname, '../'),
-        //   loader: require.resolve('babel-loader'),
-        //   options: {
-        //     customize: require.resolve(
-        //       'babel-preset-react-app/webpack-overrides'
-        //     ),
-
-        //     plugins: [],
-        //     // This is a feature of `babel-loader` for webpack (not Babel itself).
-        //     // It enables caching results in ./node_modules/.cache/babel-loader/
-        //     // directory for faster rebuilds.
-        //     cacheDirectory: true,
-        //     cacheCompression: true,
-        //     compact: true,
-        //   },
-        //   exclude: /(node_modules|dist)/,
-        // },
-        // {
-        //   test: /\.(js|mjs|tsx)$/,
-        //   include: path.join(__dirname, '../'),
-        //   exclude: /@babel(?:\/|\\{1,2})runtime/,
-        //   loader: require.resolve('babel-loader'),
-        //   options: {
-        //     babelrc: false,
-        //     configFile: false,
-        //     compact: false,
-        //     exclude: /(node_modules|dist)/,
-        //     presets: [
-        //       [
-        //         require.resolve('babel-preset-react-app/dependencies'),
-        //         { helpers: true },
-        //       ],
-        //     ],
-        //     cacheDirectory: true,
-        //     cacheCompression: true,
-
-        //     // If an error happens in a package, it's possible to be
-        //     // because it was compiled. Thus, we don't want the browser
-        //     // debugger to show the original code. Instead, the code
-        //     // being evaluated would be much more helpful.
-        //     sourceMaps: false,
-        //   },
-        // },
       ],
     },
   });
 
+  function ensureWebpackMemoryFs(fs: any) {
+    // Return it back, when it has Webpack 'join' method
+    if (fs.join) {
+      return fs;
+    }
+
+    // Create FS proxy, adding `join` method to memfs, but not modifying original object
+    const nextFs = Object.create(fs);
+    nextFs.join = joinPath;
+
+    return nextFs;
+  }
+
+  const webpackFs = ensureWebpackMemoryFs(fs);
   // @ts-ignore
-  compiler.outputFileSystem = createFsFromVolume(new Volume());
+  compiler.outputFileSystem = webpackFs;
+  // compiler.resolvers.context.fileSystem = webpackFs
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
-      console.log('err', err);
-      console.log('stats', stats);
+      // console.log('err', err);
+      // console.log('stats', stats);
       if (err) reject(err);
 
       // @ts-ignore

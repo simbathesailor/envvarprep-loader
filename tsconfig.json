@@ -1,5 +1,5 @@
 {
-  "include": ["src", "types", "test"],
+  "include": ["src", "types", "compiler.tsx"],
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
@@ -8,7 +8,6 @@
     "declaration": true,
     "sourceMap": true,
     "rootDir": "./",
-
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -23,7 +22,7 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "*": ["src/*", "node_modules/*", "test/*"]
+      "*": ["src/*", "node_modules/*"]
     },
     "jsx": "react",
     "esModuleInterop": true
