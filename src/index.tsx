@@ -1,10 +1,11 @@
 import { getOptions } from 'loader-utils';
 import { loader } from 'webpack';
-import { parse, ParserPlugin } from '@babel/parser';
+import { parse, ParserPlugin, ParserOptions } from '@babel/parser';
 import * as BabelTypeModule from '@babel/types';
 import generator from '@babel/generator';
 import traverse from '@babel/traverse';
 import toPath from 'lodash/topath';
+import { injectEnv } from './injectEnv';
 
 // So why i am not using plugin, because i need to transform the code
 // before the any transform done by any plugin  itself
@@ -14,14 +15,15 @@ interface IOptions {
   plugins?: ParserPlugin[];
   enable?: boolean;
   debug?: boolean;
+  sourceType?: ParserOptions['sourceType'];
 }
 function T(this: loader.LoaderContext, source: string) {
   const options: IOptions = getOptions(this);
 
-  const { exclude, plugins, enable, debug = false } = options;
+  const { exclude, plugins, enable, debug = false, sourceType } = options;
   if (enable) {
     const ast = parse(source, {
-      sourceType: 'module',
+      sourceType: sourceType || 'module',
       plugins: plugins || ['jsx'],
     });
     let codalo = source;
@@ -98,4 +100,5 @@ function T(this: loader.LoaderContext, source: string) {
   return source;
 }
 
+export { injectEnv };
 export default T;

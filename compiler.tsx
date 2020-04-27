@@ -32,6 +32,7 @@ export default (fixture: string) => {
                 exclude: ['NODE_ENV', 'REACT_APP_APPNAME', 'PUBLIC_URL'],
                 plugins: ['jsx'],
                 enable: true,
+                sourceType: 'module',
               },
               loader: path.join(__dirname, './src/index.tsx'),
             },
