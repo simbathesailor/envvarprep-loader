@@ -111,9 +111,9 @@ const defaultOptions = {
 };
 ```
 
-globOptions: All the options which are accepted by (Glob)[https://www.npmjs.com/package/glob]
+globOptions: All the options which are accepted by [Glob](https://www.npmjs.com/package/glob)
 
-pattern:string [optional] glob pattern string (see the pattern in section)[https://www.npmjs.com/package/glob#globsyncpattern-options]
+pattern:string [optional] glob pattern string [see the pattern in section](https://www.npmjs.com/package/glob#globsyncpattern-options)
 
 envVar(object): Env objects that is fetched from any other param store.
 
