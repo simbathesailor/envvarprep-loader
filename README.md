@@ -126,7 +126,7 @@ updateInline: if true (default), the original files will be updated.
 
 ### How it works
 
-<p align="center"><img src="images/howitworks.svg" width="500" align="center" /></p>
+<p align="center"><img src="images/howitworks.png" width="500" align="center" /></p>
 
 Image explians all what is happening with the loader and script.
 
