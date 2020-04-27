@@ -1,6 +1,6 @@
 # envvarprep-loader
 
-<h2  align="center">A webpack loader which prepares the builds to allow env injection later on without building everything again.</h2>
+<h2  align="center">A webpack loader which prepares the frontend builds to allow env injection later on without building everything again.</h2>
 
 ### Usage
 
