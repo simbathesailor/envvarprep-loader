@@ -4,7 +4,7 @@ import { parse, ParserPlugin, ParserOptions } from '@babel/parser';
 import * as BabelTypeModule from '@babel/types';
 import generator from '@babel/generator';
 import traverse from '@babel/traverse';
-import toPath from 'lodash/topath';
+import toPath from 'lodash/toPath';
 import { injectEnv } from './injectEnv';
 
 // So why i am not using plugin, because i need to transform the code
