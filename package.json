@@ -69,5 +69,9 @@
     "babel",
     "env",
     "loader"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simbathesailor/envvarprep-loader"
+  }
 }
