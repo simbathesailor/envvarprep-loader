@@ -2,8 +2,6 @@
 
 <h2  align="center">A webpack loader which prepares the frontend builds to allow env injection later on without building everything again.</h2>
 
-![TEST](https://github.com/simbathesailor/envvarprep-loader/workflows/CI/badge.svg?branch=master)
-
 ### Usage
 
 ```sh

@@ -102,3 +102,5 @@ function T(this: loader.LoaderContext, source: string) {
 
 export { injectEnv };
 export default T;
+
+// ![TEST](https://github.com/simbathesailor/envvarprep-loader/workflows/CI/badge.svg?branch=master)
