@@ -5,32 +5,33 @@
 ### Usage
 
 ```sh
-
 yarn add envvarprep-loader --dev
 
 ```
 
 ```javascript
+
 module: {
-      rules: [
+  rules: [
+    {
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
+      enforce: 'pre',
+      include: path.join(__dirname, './src'),
+      use: [
         {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          enforce: 'pre',
-          include: path.join(__dirname, './src'),
-          use: [
-            {
-              options: {
-                exclude: ['NODE_ENV', 'REACT_APP_APPNAME', 'PUBLIC_URL'],
-                plugins: ['jsx'],
-                enable: true,
-                debug: true, // default is false
-              },
-              loader: "envvarprep-loader",
-            }
-          ],
-          exclude: /(node_modules|dist)/,
-        },
+          options: {
+            exclude: ['NODE_ENV', 'REACT_APP_APPNAME', 'PUBLIC_URL'],
+            plugins: ['jsx'],
+            enable: true,
+            debug: true, // default is false
+          },
+          loader: "envvarprep-loader",
+        }
       ],
+      exclude: /(node_modules|dist)/,
+    },
+  ],
+}
 ```
 
 Types for loader options
