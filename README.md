@@ -1,6 +1,6 @@
 # envvarprep-loader
 
-<h2  align="center"A webpack loader which prepares the builds to allow env injection later on without building everything again.</h2>
+<h2  align="center">A webpack loader which prepares the builds to allow env injection later on without building everything again.</h2>
 
 ### Usage
 
@@ -125,7 +125,7 @@ updateInline: if true (default), the original files will be updated.
 
 ### How it works
 
-<p align="center"><img src="howitworks.svg" width="400" align="center"></p>
+<p align="center"><img src="howitworks.svg" width="500" align="center"></p>
 
 Image explians all what is happening with the loader and script.
 
