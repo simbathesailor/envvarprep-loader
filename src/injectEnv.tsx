@@ -163,7 +163,7 @@ function injectEnv(options: IInjectEnv) {
       }
     }
   });
-  console.log('Successfully env to all the files ');
+  console.log('Successfully injected env to all the files ');
 }
 
 export { injectEnv };
