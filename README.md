@@ -134,12 +134,18 @@ updateInline: if true (default), the original files will be updated.
 
 ### Problem statement:
 
-So in typical organisation, we generally have many environment for various stateholders e.g dev, staging, uat, preproduction and production. we keep secret keys in some kind of param store which varies across environment. When we need to deploy same code on different environment we need to rebuild everything, even if the code remains same, only the secrets might have changed. We need not repeat whole npm install, production build and other processes which are common. we can reuse the built code and inject secrets in later steps(which will only care for changed param values not other things). This usual build process may be okish for some projects, where build process is itself very minute. But in most of the projects the build takes 5-10 minutes. The process I mentioned above can bring the time within 1 minutes.
+```
+So in typical organisation, we generally have many environment for various
+stateholders e.g dev, staging, uat, preproduction and production. we keep secret keys in some kind of param store which varies across environment. When we need to deploy same code on different environment we need to rebuild everything, even if the code remains same, only the secrets might have changed. We need not repeat whole npm install, production build and other processes which are common. we can reuse the built code and inject secrets in later steps(which will only care for changed param values not other things). This usual build process may be okish for some projects, where build process is itself very minute. But in most of the projects the build takes 5-10 minutes. The process I mentioned above can bring the time within 1 minutes.
 Think about time and money that can be saved in a organization having multiple projects.
+
+
 
 How this will done ?
 
 I will be making use babel ASTs , babel parsers and webpack loaders to do so. These tools can be used to give us an extra step where we can inject secrets.
+
+```
 
 ### How it works
 
