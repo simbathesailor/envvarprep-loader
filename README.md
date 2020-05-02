@@ -150,9 +150,9 @@ console.log('REACT_APP_PARAM_TWO HI ', REACT_APP_PARAM_TWO);
 
 Improvements:
 
-- Only for non .js file, env injection with string replacement, for .js files we make use of babel ast transformation (which cover almost all the usecases). Need to look for solution for other types of file .js.map files. Any prs and discussions are welcome !!.
+- Only for non .js file, we do env injection with string replacement. For .js files we make use of babel ast transformation (which cover almost all the usecases). Need to look for solution for other types of file .js.map files. Any prs and discussions are welcome !!.
 
-* Make use of some babel plugin to remove the dead code in the second phase. As env injection might evealuate certain code blocks to be unnecessary. Doing that
+* Make use of some babel plugin to remove the dead code in the second phase. As env injection might evaluate certain code blocks to be unnecessary. Doing that
   should bring in the same bundle size which happens otherwise now.
 
 Built with [TSDX](https://github.com/jaredpalmer/tsdx)

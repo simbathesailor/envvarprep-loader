@@ -62,7 +62,8 @@
     "webpack": "^4.43.0"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testTimeout": 20000
   },
   "keywords": [
     "webpack",
