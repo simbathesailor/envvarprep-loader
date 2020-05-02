@@ -2,6 +2,14 @@
 
 <h2  align="center">A webpack loader which prepares the frontend builds to allow env injection later on without building everything again.</h2>
 
+<p  align="center">
+
+<img  src="https://github.com/simbathesailor/envvarprep-loader/workflows/CI/badge.svg?branch=master">
+
+<img  src="https://img.shields.io/npm/v/envvarprep-loader">
+
+</p>
+
 ### Usage
 
 ```sh

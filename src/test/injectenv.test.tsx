@@ -12,6 +12,7 @@ import path from 'path';
 //     destination: __dirname,
 //     updateInline: true,
 //   };
+
 describe('it', () => {
   it('replaces the string with correct values', () => {
     const env = {
