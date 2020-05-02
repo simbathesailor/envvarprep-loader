@@ -140,7 +140,7 @@ Image explians all what is happening with the loader and script.
 
 Know Issues:
 
-- Syntax like below will not work as expected
+- Syntax like below will not work as expected.
 
 ```javascript
 const { env } = process;
@@ -150,7 +150,7 @@ console.log('REACT_APP_PARAM_TWO HI ', REACT_APP_PARAM_TWO);
 
 Improvements:
 
-- Right not env variable injection happens with string replacement. Still identifying the better way of doing the env injection using babel AST. Definitely in the roadmap
+- Only for non .js file, env injection with string replacement, for .js files we make use of babel ast transformation (which cover almost all the usecases). Need to look for solution for other types of file .js.map files. Any prs and discussions are welcome !!.
 
 * Make use of some babel plugin to remove the dead code in the second phase. As env injection might evealuate certain code blocks to be unnecessary. Doing that
   should bring in the same bundle size which happens otherwise now.
