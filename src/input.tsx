@@ -3,6 +3,9 @@ import * as React from 'react';
 export const SOMEPARAM = process.env.REACT_APP_PARAM_TWO;
 
 console.log('SOMEPARAM outside', SOMEPARAM);
+// const { env } = process;
+// const { REACT_APP_PARAM_TWO } = env;
+// console.log('REACT_APP_PARAM_TWO HI ', REACT_APP_PARAM_TWO);
 
 function App(): React.ReactElement {
   console.log(process.env.NODE_ENV);

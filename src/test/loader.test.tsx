@@ -4,7 +4,7 @@ import compiler from '../../compiler';
 describe('it', () => {
   it('process.env replacement count is right', async () => {
     const stats = await compiler('input.tsx');
-    jest.setTimeout(30000);
+    // jest.setTimeout(30000);
     // @ts-ignore
     const output = stats.toJson().modules[1].source;
     console.log('output', output);

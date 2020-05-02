@@ -130,4 +130,21 @@ updateInline: if true (default), the original files will be updated.
 
 Image explians all what is happening with the loader and script.
 
+Know Issues:
+
+- Syntax like below will not work as expected
+
+```javascript
+const { env } = process;
+const { REACT_APP_PARAM_TWO } = env;
+console.log('REACT_APP_PARAM_TWO HI ', REACT_APP_PARAM_TWO);
+```
+
+Improvements:
+
+- Right not env variable injection happens with string replacement. Still identifying the better way of doing the env injection using babel AST. Definitely in the roadmap
+
+* Make use of some babel plugin to remove the dead code in the second phase. As env injection might evealuate certain code blocks to be unnecessary. Doing that
+  should bring in the same bundle size which happens otherwise now.
+
 Built with [TSDX](https://github.com/jaredpalmer/tsdx)
