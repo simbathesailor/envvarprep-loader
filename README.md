@@ -163,6 +163,10 @@ const { REACT_APP_PARAM_TWO } = env;
 console.log('REACT_APP_PARAM_TWO HI ', REACT_APP_PARAM_TWO);
 ```
 
+Link to the sample repositories making use of this loader:
+
+[https://github.com/simbathesailor/separate-env-injection-playground](https://github.com/simbathesailor/separate-env-injection-playground)
+
 Improvements:
 
 - Only for non .js file, we do env injection with string replacement. For .js files we make use of babel ast transformation (which cover almost all the usecases). Need to look for solution for other types of file .js.map files. Any prs and discussions are welcome !!.
