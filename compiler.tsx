@@ -33,6 +33,7 @@ export default (fixture: string) => {
                 plugins: ['jsx'],
                 enable: true,
                 sourceType: 'module',
+                debug: true,
               },
               loader: path.join(__dirname, './src/index.tsx'),
             },

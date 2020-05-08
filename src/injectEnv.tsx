@@ -1,11 +1,11 @@
 import path from 'path';
 import glob from 'glob';
 import fs from 'fs';
-import * as BabelTypeModule from '@babel/types';
-import { parse } from '@babel/parser';
-import generator from '@babel/generator';
-import traverse from '@babel/traverse';
-import get from 'lodash/get';
+// import * as BabelTypeModule from '@babel/types';
+// import { parse } from '@babel/parser';
+// import generator from '@babel/generator';
+// import traverse from '@babel/traverse';
+// import get from 'lodash/get';
 
 // const envFromParamStore = {
 // 	REACT_APP_PARAM_ONE: 'I AM PARAM ONE',
@@ -90,152 +90,153 @@ function injectEnv(options: IInjectEnv) {
     if (noOfMatches && noOfMatches.length > 1) {
       let changed = false;
       // start
-      if (extension === '.js') {
-        const ast = parse(source, {
-          sourceType: 'module',
-          plugins: ['jsx'],
-        });
+      // if (extension === '.js') {
+      //   const ast = parse(source, {
+      //     sourceType: 'module',
+      //     plugins: ['jsx'],
+      //   });
 
-        traverse(ast, {
-          enter(path) {
-            /**
-             * For template literals
-             */
-            if (BabelTypeModule.isTemplateLiteral(path.node)) {
-              // const quasis = path.node.quasis
-              const leftQuasisValue = get(path.node, 'quasis[0].value', null);
-              const rightQuasisValue = get(path.node, 'quasis[1].value', null);
+      //   traverse(ast, {
+      //     enter(path) {
+      //       /**
+      //        * For template literals
+      //        */
+      //       if (BabelTypeModule.isTemplateLiteral(path.node)) {
+      //         // const quasis = path.node.quasis
+      //         const leftQuasisValue = get(path.node, 'quasis[0].value', null);
+      //         const rightQuasisValue = get(path.node, 'quasis[1].value', null);
 
-              if (leftQuasisValue && rightQuasisValue) {
-                const isLeftQuasisValid =
-                  leftQuasisValue.raw.startsWith('$$_INTERNAL__process.env') &&
-                  leftQuasisValue.raw.endsWith('MATH_RANDOM_START');
-                const isRightQuasisValid = rightQuasisValue.raw.endsWith(
-                  'MATH_RANDOM_END$$_INTERNAL__'
-                );
+      //         if (leftQuasisValue && rightQuasisValue) {
+      //           const isLeftQuasisValid =
+      //             leftQuasisValue.raw.startsWith('$$_INTERNAL__process.env') &&
+      //             leftQuasisValue.raw.endsWith('MATH_RANDOM_START');
+      //           const isRightQuasisValid = rightQuasisValue.raw.endsWith(
+      //             'MATH_RANDOM_END$$_INTERNAL__'
+      //           );
 
-                if (isLeftQuasisValid && isRightQuasisValid) {
-                  let v = leftQuasisValue.raw;
-                  v = v.replace('$$_INTERNAL__process.env.', '');
-                  v = v.replace('MATH_RANDOM_START', '');
-                  // @ts-ignore
-                  const valueInParamStore = envFromParamStore[v.trim()];
-                  if (valueInParamStore !== undefined) {
-                    const MM = BabelTypeModule.stringLiteral(valueInParamStore);
-                    path.replaceWith(MM);
-                    changed = true;
-                  }
-                }
-              }
-            }
+      //           if (isLeftQuasisValid && isRightQuasisValid) {
+      //             let v = leftQuasisValue.raw;
+      //             v = v.replace('$$_INTERNAL__process.env.', '');
+      //             v = v.replace('MATH_RANDOM_START', '');
+      //             // @ts-ignore
+      //             const valueInParamStore = envFromParamStore[v.trim()];
+      //             if (valueInParamStore !== undefined) {
+      //               const MM = BabelTypeModule.stringLiteral(valueInParamStore);
+      //               path.replaceWith(MM);
+      //               changed = true;
+      //             }
+      //           }
+      //         }
+      //       }
 
-            /**
-             * For string formats
-             */
-            if (BabelTypeModule.isStringLiteral(path.node)) {
-              // console.log(`String is: ==> ${path.node.value}`);
+      //       /**
+      //        * For string formats
+      //        */
+      //       if (BabelTypeModule.isStringLiteral(path.node)) {
+      //         // console.log(`String is: ==> ${path.node.value}`);
 
-              if (path.node.value === 'MATH_RANDOM_END$$_INTERNAL__') {
-                const MM = BabelTypeModule.stringLiteral('');
-                path.replaceWith(MM);
-                changed = true;
-              }
+      //         if (path.node.value === 'MATH_RANDOM_END$$_INTERNAL__') {
+      //           const MM = BabelTypeModule.stringLiteral('');
+      //           path.replaceWith(MM);
+      //           changed = true;
+      //         }
 
-              if (
-                path.node.value.startsWith('$$_INTERNAL__process.env') &&
-                path.node.value.endsWith('MATH_RANDOM_START')
-              ) {
-                let v = path.node.value;
-                v = v.replace('$$_INTERNAL__process.env.', '');
-                v = v.replace('MATH_RANDOM_START', '');
+      //         if (
+      //           path.node.value.startsWith('$$_INTERNAL__process.env') &&
+      //           path.node.value.endsWith('MATH_RANDOM_START')
+      //         ) {
+      //           let v = path.node.value;
+      //           v = v.replace('$$_INTERNAL__process.env.', '');
+      //           v = v.replace('MATH_RANDOM_START', '');
 
-                if (v && v.trim()) {
-                  // @ts-ignore
-                  const valueInParamStore = envFromParamStore[v.trim()];
-                  if (valueInParamStore !== undefined) {
-                    const MM = BabelTypeModule.stringLiteral(valueInParamStore);
-                    path.replaceWith(MM);
-                    changed = true;
-                  }
-                }
-              }
-            }
-          },
-        });
+      //           if (v && v.trim()) {
+      //             // @ts-ignore
+      //             const valueInParamStore = envFromParamStore[v.trim()];
+      //             if (valueInParamStore !== undefined) {
+      //               const MM = BabelTypeModule.stringLiteral(valueInParamStore);
+      //               path.replaceWith(MM);
+      //               changed = true;
+      //             }
+      //           }
+      //         }
+      //       }
+      //     },
+      //   });
 
-        source = generator(ast).code;
-      } else {
-        /**
-         * For cases when filee is not .js extension
-         */
-        const splitSource = source.split(divider);
-        source = splitSource
-          .reduce(
-            (acc: IAccRes, elem) => {
-              let stringToBeReplaced = elem;
-              if (acc.remove) {
-                // need to replace the extra ) added for concat
+      //   source = generator(ast).code;
+      // }
 
-                stringToBeReplaced = stringToBeReplaced.replace(/\)/, '');
-                // }
-                acc.remove = false;
-              }
-              const ifElementStartsWithProcessEnv = elem.startsWith(
-                'process.env.'
-              );
-              const indexOfMathRandomStart = elem.search('MATH_RANDOM_START');
-              if (
-                indexOfMathRandomStart !== -1 &&
-                ifElementStartsWithProcessEnv
-              ) {
-                const temp = elem.slice(indexOfMathRandomStart);
-                stringToBeReplaced = stringToBeReplaced.replace(temp, '');
+      /**
+       * For cases when filee is not .js extension
+       */
+      const splitSource = source.split(divider);
+      source = splitSource
+        .reduce(
+          (acc: IAccRes, elem) => {
+            let stringToBeReplaced = elem;
+            if (acc.remove) {
+              // need to replace the extra ) added for concat
 
-                const splittedString = stringToBeReplaced.split('.');
-                const [
-                  firstVariable,
-                  secondVariable,
-                  ThirdVariable,
-                ] = splittedString;
-                const isValidFirstVariable = firstVariable.trim() === 'process';
-                const isValidSecondVariable = secondVariable.trim() === 'env';
-
-                const paramValue: string | undefined =
-                  // @ts-ignore
-                  envFromParamStore[ThirdVariable.trim()] || undefined;
-
-                const isValidThirdVariable = paramValue !== undefined;
-                if (
-                  isValidFirstVariable &&
-                  isValidSecondVariable &&
-                  isValidThirdVariable
-                ) {
-                  if (paramValue !== undefined) {
-                    acc.result.push(paramValue);
-                  }
-                  const countOfOpeningBrackets = temp.match(/\(/g);
-                  const countClosingBrackets = temp.match(/\)/g);
-                  if (
-                    countOfOpeningBrackets &&
-                    countClosingBrackets &&
-                    countOfOpeningBrackets.length > countClosingBrackets.length
-                  ) {
-                    acc.remove = true;
-                  }
-
-                  changed = true;
-                  return acc;
-                }
-              }
-
-              acc.result.push(stringToBeReplaced);
+              stringToBeReplaced = stringToBeReplaced.replace(/\)/, '');
+              // }
               acc.remove = false;
-              return acc;
-            },
-            { result: [], remove: false }
-          )
-          .result.join('');
-      }
+            }
+            const ifElementStartsWithProcessEnv = elem.startsWith(
+              'process.env.'
+            );
+            const indexOfMathRandomStart = elem.search('MATH_RANDOM_START');
+            if (
+              indexOfMathRandomStart !== -1 &&
+              ifElementStartsWithProcessEnv
+            ) {
+              const temp = elem.slice(indexOfMathRandomStart);
+              stringToBeReplaced = stringToBeReplaced.replace(temp, '');
+
+              const splittedString = stringToBeReplaced.split('.');
+              const [
+                firstVariable,
+                secondVariable,
+                ThirdVariable,
+              ] = splittedString;
+              const isValidFirstVariable = firstVariable.trim() === 'process';
+              const isValidSecondVariable = secondVariable.trim() === 'env';
+
+              const paramValue: string | undefined =
+                // @ts-ignore
+                envFromParamStore[ThirdVariable.trim()] || undefined;
+
+              const isValidThirdVariable = paramValue !== undefined;
+              if (
+                isValidFirstVariable &&
+                isValidSecondVariable &&
+                isValidThirdVariable
+              ) {
+                if (paramValue !== undefined) {
+                  acc.result.push(paramValue);
+                }
+                const countOfOpeningBrackets = temp.match(/\(/g);
+                const countClosingBrackets = temp.match(/\)/g);
+                if (
+                  countOfOpeningBrackets &&
+                  countClosingBrackets &&
+                  countOfOpeningBrackets.length > countClosingBrackets.length
+                ) {
+                  acc.remove = true;
+                }
+
+                changed = true;
+                return acc;
+              }
+            }
+
+            acc.result.push(stringToBeReplaced);
+            acc.remove = false;
+            return acc;
+          },
+          { result: [], remove: false }
+        )
+        .result.join('');
+
       // end
 
       if (changed) {

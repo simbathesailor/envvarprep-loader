@@ -34,6 +34,7 @@ function T(this: loader.LoaderContext, source: string) {
         // I want to be sure , that the modification is happening
         // only for process.env member Identifiers. There is no
         // way to guarantee that with string parsing.
+
         if (BabelTypeModule.isMemberExpression(path.node)) {
           const generatedCode = generator(path.node);
 
@@ -52,6 +53,8 @@ function T(this: loader.LoaderContext, source: string) {
             if (debug) {
               console.log(`Path found in the code is : ${pathArr}`);
               console.log(`Path name is : ${paramName}`);
+              // const A = path.matchesPattern('process.env.',true );
+              // console.log('enter -> A', A);
             }
             const isBlackList = exclude
               ? exclude.findIndex((blackListedItem: string) => {
