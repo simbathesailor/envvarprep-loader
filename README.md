@@ -10,6 +10,22 @@
 
 </p>
 
+
+### Problem statement:
+
+```
+So in typical organisation, we generally have many environment for various
+stateholders e.g dev, staging, uat, preproduction and production. We keep secret keys in some kind of param store which varies across environment. When we need to deploy same code on different environment we need to rebuild everything, even if the code remains same, only the secrets might have changed. We need not repeat whole npm install, production build and other processes which are common. we can reuse the built code and inject secrets in later steps(which will only care for changed param values not other things). This usual build process may be okish for some projects, where build process is itself very minute. But in most of the projects the build takes 5-10 minutes. The process I mentioned above can bring the time within 1 minutes.
+Think about time and money that can be saved in a organization having multiple projects.
+
+
+
+How this will done ?
+
+I will be making use babel ASTs , babel parsers and webpack loaders to do so. These tools can be used to give us an extra step where we can inject secrets.
+
+```
+
 ### Usage
 
 ```sh
@@ -155,13 +171,14 @@ Image explains all what is happening with the loader and script.
 
 Know Issues:
 
-- Syntax like below will not work as expected.
+- Syntax like below will not work as expected. So make sure the code is being converted to process.env.NAME or process.env["NAME"] from you babel presets. 
 
 ```javascript
 const { env } = process;
 const { REACT_APP_PARAM_TWO } = env;
 console.log('REACT_APP_PARAM_TWO HI ', REACT_APP_PARAM_TWO);
 ```
+
 
 Link to the sample repositories making use of this loader:
 
