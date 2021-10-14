@@ -25,19 +25,13 @@
         c = o.n(r),
         s = (o(9), o(3)),
         l = o.n(s),
-        A =
-          (o(10),
-          'I am param two'
-          );
+        A = (o(10), 'I am param two');
       console.log('SOMEPARAM outside', A);
       var i = function() {
         return (
           console.log('production'),
           console.log('SOMEPARAM inside', A),
-          console.log(
-            'I am param three'
-            
-          ),
+          console.log('I am param three'),
           t.createElement(
             'div',
             { className: 'App' },
@@ -67,9 +61,8 @@
                 'Learn React'
               )
             ),
-            'I AM PARAM THREE' ===
-              'I am param three'
-               && t.createElement('p', null, 'COnditional got rendered')
+            'I AM PARAM THREE' === 'I am param three' &&
+              t.createElement('p', null, 'COnditional got rendered')
           )
         );
       };

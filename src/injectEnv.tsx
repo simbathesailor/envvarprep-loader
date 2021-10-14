@@ -26,12 +26,16 @@ const defaultOptions = {
   debug: process.env.NODE_ENV !== 'production',
   destination: __dirname,
   updateInline: true,
+  getReplacementValue: () => '',
 };
 
 interface IEnvObj {
   [key: string]: string;
 }
 
+interface IgetReplacementValue {
+  key?: string;
+}
 interface IInjectEnv {
   globOptions: glob.IOptions;
   envVar?: IEnvObj;
@@ -39,6 +43,7 @@ interface IInjectEnv {
   destination?: string;
   pattern?: string;
   updateInline?: boolean;
+  getReplacementValue?: (input: IgetReplacementValue) => string;
 }
 
 interface IAccRes {
@@ -52,6 +57,7 @@ function injectEnv(options: IInjectEnv) {
     debug = defaultOptions.debug,
     pattern = defaultOptions.pattern,
     updateInline = defaultOptions.updateInline,
+    getReplacementValue = defaultOptions.getReplacementValue,
   } = options;
 
   const { cwd = defaultOptions.globOptions.cwd } = globOptions;
@@ -201,9 +207,24 @@ function injectEnv(options: IInjectEnv) {
               const isValidFirstVariable = firstVariable.trim() === 'process';
               const isValidSecondVariable = secondVariable.trim() === 'env';
 
-              const paramValue: string | undefined =
+              let paramValue: string | undefined =
                 // @ts-ignore
                 envFromParamStore[ThirdVariable.trim()] || undefined;
+              if (debug) {
+                console.log(
+                  '🚀 ~ file: injectEnv.tsx ~ line 205 ~ injectEnv ~ paramValue',
+                  ThirdVariable.trim(),
+                  '||||',
+                  paramValue
+                );
+              }
+
+              if (getReplacementValue && !paramValue) {
+                paramValue =
+                  getReplacementValue({
+                    key: ThirdVariable.trim(),
+                  }) || '';
+              }
 
               const isValidThirdVariable = paramValue !== undefined;
               if (
