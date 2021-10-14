@@ -5,7 +5,7 @@ export const SOMEPARAM = process.env.REACT_APP_PARAM_TWO;
 // @ts-ignore
 const { REACT_APP_PARAM_THREE } = process.env;
 
-console.log(REACT_APP_PARAM_THREE)
+console.log(REACT_APP_PARAM_THREE);
 console.log('SOMEPARAM outside', SOMEPARAM);
 // const { env } = process;
 // const { REACT_APP_PARAM_TWO } = env;
